@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Frontend where
@@ -9,9 +10,10 @@ import Common.Api
 import Common.Route
 import Control.Lens ((^.))
 import Control.Monad
+import Control.Monad.IO.Class (liftIO)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
-import Language.Javascript.JSaddle (js, js1, jsg, liftJSM)
+import Language.Javascript.JSaddle (function, js, js1, jsg, liftJSM, nextAnimationFrame, valToNumber)
 import Obelisk.Configs
 import Obelisk.Frontend
 import Obelisk.Generated.Static
@@ -29,6 +31,8 @@ frontend =
         elAttr "script" ("type" =: "application/javascript" <> "src" =: $(static "lib.js")) blank
         elAttr "link" ("href" =: $(static "main.css") <> "type" =: "text/css" <> "rel" =: "stylesheet") blank,
       _frontend_body = do
+        (animationFrameE, fireAnimationFrameE :: Double -> IO ()) <- newTriggerEvent
+        display =<< count animationFrameE
         el "h1" $ text "Welcome to Obelisk!"
         el "p" $ text $ T.pack commonStuff
 
@@ -39,10 +43,15 @@ frontend =
         --
         -- FIXME: for some reason this doesnt work (seems like it breaks the app)
         --
-        -- prerender_ blank $ liftJSM $ void
-        --   $ jsg ("window" :: T.Text)
-        --   ^. js ("skeleton_lib" :: T.Text)
-        --   ^. js1 ("log" :: T.Text) ("Hello, World!" :: T.Text)
+        -- prerender_ blank $
+        --   liftJSM $
+        --     void $ do
+        --       f <- function $ \_ _ [arg1] -> valToNumber arg1 >>= liftIO . fireAnimationFrameE
+        --       jsg ("window" :: T.Text)
+        --         ^. js ("skeleton_lib" :: T.Text)
+        --         ^. js1
+        --           ("animationHook" :: T.Text)
+        --           f
 
         elAttr "img" ("src" =: $(static "obelisk.jpg")) blank
         el "div" $ do
