@@ -30,28 +30,22 @@ frontend =
         el "title" $ text "Obelisk Minimal Example"
         elAttr "script" ("type" =: "application/javascript" <> "src" =: $(static "lib.js")) blank
         elAttr "link" ("href" =: $(static "main.css") <> "type" =: "text/css" <> "rel" =: "stylesheet") blank,
-      _frontend_body = do
+      _frontend_body = prerender_ blank $ do
         (animationFrameE, fireAnimationFrameE :: Double -> IO ()) <- newTriggerEvent
         display =<< count animationFrameE
+        be <- button "woooo"
+        display =<< count be
         el "h1" $ text "Welcome to Obelisk!"
         el "p" $ text $ T.pack commonStuff
 
-        -- `prerender` and `prerender_` let you choose a widget to run on the server
-        -- during prerendering and a different widget to run on the client with
-        -- JavaScript. The following will generate a `blank` widget on the server and
-        -- print "Hello, World!" on the client.
-        --
-        -- FIXME: for some reason this doesnt work (seems like it breaks the app)
-        --
-        -- prerender_ blank $
-        --   liftJSM $
-        --     void $ do
-        --       f <- function $ \_ _ [arg1] -> valToNumber arg1 >>= liftIO . fireAnimationFrameE
-        --       jsg ("window" :: T.Text)
-        --         ^. js ("skeleton_lib" :: T.Text)
-        --         ^. js1
-        --           ("animationHook" :: T.Text)
-        --           f
+        dpb <- getPostBuild >>= delay 0.1
+        performEvent_ $ ffor dpb $ \_ -> liftJSM $ void $ do
+          f <- function $ \_ _ [arg1] -> valToNumber arg1 >>= liftIO . fireAnimationFrameE
+          jsg ("window" :: T.Text)
+            ^. js ("skeleton_lib" :: T.Text)
+            ^. js1
+              ("animationHook" :: T.Text)
+              f
 
         elAttr "img" ("src" =: $(static "obelisk.jpg")) blank
         el "div" $ do
