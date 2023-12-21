@@ -3,6 +3,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE RecursiveDo #-}
 
 module Frontend where
 
@@ -19,6 +20,33 @@ import Obelisk.Frontend
 import Obelisk.Generated.Static
 import Obelisk.Route
 import Reflex.Dom.Core
+
+logInW :: forall t m. MonadWidget t m => m ()
+logInW = divClass "container my-4" $ mdo
+  isLogin <- switchHold never (_link_clicked <$> switchLink) >>= toggle True
+  switchLink <- dyn $ ffor isLogin $ \case
+    True -> do
+      emailPassW "Log in"
+      row . elClass "span" "px-0" $ do
+        text "Or "
+        link "sign up here"
+    False -> do
+      back <- row $ link "< Go back"
+      emailPassW "Sign up"
+      pure back
+  pure ()
+  where
+    row = divClass "row py-2"
+    emailPassW :: T.Text ->  m (Event t (T.Text, T.Text))
+    emailPassW bText = do
+      email <- row $ value <$> input "email"
+      pass <- row $ value <$> input "password"
+      button <- row $ button bText
+      -- TODO: validate email and password
+      pure $ tagPromptlyDyn (zipDynWith (,) email pass) button
+      where
+        input t = inputElement $ def
+          & inputElementConfig_elementConfig . elementConfig_initialAttributes .~ ("type" =: t)
 
 -- This runs in a monad that can be run on the client or the server.
 -- To run code in a pure client or pure server context, use one of the
