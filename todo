@@ -1,1 +1,56 @@
 [ ] see https://github.com/jecaro/diverk/ for example
+
+========= This week
+[ ] add picocss
+[ ] add servant backend https://github.com/jonathanknowles/obelisk-reflex-servant-example https://jappie.me/fullstack-haskell-reflex-and-servant.html
+[ ] generate servant endpoints 
+
+========= Backlog
+[ ] add frontend routing
+[ ] add sql backend (persistent, esqueleto)
+[ ] add local storage
+[ ] add auth/sessions https://jappie.me/authentication-in-reflex-servant.html
+  - servant auth https://docs.servant.dev/en/stable/cookbook/open-id-connect/OpenIdConnect.html , https://hackage.haskell.org/package/users-0.5.0.0, https://github.com/haskell-servant/servant/tree/master/servant-auth#readme
+[ ] add rich textbox (quilljs > slatejs)
+[ ] add logic for dropdown
+[ ] add file upload with progress
+[ ] add incremental/typeahead search 
+[ ] add gitlab style sidebar navigation (see mobile version of codeforces, uses swipe)
+[ ] add option to crop round images with https://fengyuanchen.github.io/cropperjs/
+[ ] upload cropped image to the server and create thumbnails
+[ ] add page to view uploaded images by clicking on thumbnails
+[ ] add option to render/view pdfs with pdfjs.express
+[ ] load and render GIS map
+[ ] render overlay over GIS map
+[ ] transform overlay coordinate system to different system
+[ ] add live chat (pooling)
+[ ] add SSE to notify for msgs
+[ ] add signup/register via email
+[ ] send email confirmation link (mailgun, sendgrid, smtp, yesod book)
+[ ] add login form
+[ ] add login via OAuth
+[ ] add websockets
+[ ] add chat via conversejs.org or haskells https://github.com/l29ah/pontarius-xmpp/ and prosody as server
+[ ] add webrtc for video/call
+[ ] tls support, self signed certs
+[ ] add server rendered example page using obelisk (hidration) - see tryreflex page, https://jappie.me/reflex-server-side-html-rendering.html
+[ ] add server rendered example page using lucid
+[ ] load spa with progress bar from lucid generated page - https://github.com/obsidiansystems/obelisk/blob/135bfd7422b856c146b5cd5dacfe584f0621825e/lib/backend/src/Obelisk/Backend.hs
+[ ] add payment service integration (stripe?)
+[ ] add basic analytics
+[ ] integrate ai text generate tools
+[ ] add i18n
+
+========= Android (interact with os and sensors)
+[ ] save file via js (or natively)
+[ ] open file via js (or natively)
+[ ] request gps via js
+[ ] request camera via js
+[ ] request mic via js
+[ ] native android notification api
+[ ] send push notification from server (android) https://en.wikipedia.org/wiki/Firebase_Cloud_Messaging
+[ ] read code/learn https://github.com/obsidiansystems/obelisk/tree/135bfd7422b856c146b5cd5dacfe584f0621825e/lib
+[ ] add android push notification support https://github.com/obsidiansystems/android-activity https://en.wikipedia.org/wiki/Firebase_Cloud_Messaging
+[ ] add android fs support https://en.wikipedia.org/wiki/Firebase_Cloud_Messaging
+[ ] add android state to check is wifi connected (download big files only on wifi option)
+[ ] add android support for location/gps https://github.com/neurocyte/android-haskell-activity https://github.com/obsidiansystems/cross-android
