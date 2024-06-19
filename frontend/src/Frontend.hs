@@ -57,7 +57,9 @@ frontend =
     { _frontend_head = do
         el "title" $ text "Obelisk Minimal Example"
         elAttr "script" ("type" =: "application/javascript" <> "src" =: $(static "lib.js")) blank
-        elAttr "link" ("href" =: $(static "main.css") <> "type" =: "text/css" <> "rel" =: "stylesheet") blank,
+        elAttr "link" ("href" =: $(static "main.css") <> "type" =: "text/css" <> "rel" =: "stylesheet") blank
+        -- TODO serve pico locally
+        elAttr "link" ("href" =: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" <> "rel" =: "stylesheet") blank,
       _frontend_body = prerender_ blank $ do
         (animationFrameE, fireAnimationFrameE :: Double -> IO ()) <- newTriggerEvent
         display =<< count animationFrameE
