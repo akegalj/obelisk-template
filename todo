@@ -6,8 +6,10 @@
 [ ] generate servant endpoints (servant-client, https://github.com/imalsogreg/servant-reflex)
 
 ========= Backlog
+[ ] add logging on backend (katip)
+[ ] add monitoring on backend (monad-metrics)
 [ ] add frontend routing
-[ ] add sql backend (persistent, persistent-migrate, esqueleto) https://www.yesodweb.com/book/persistent
+[ ] add sql backend (persistent, persistent-migrate, esqueleto) https://www.yesodweb.com/book/persistent https://github.com/parsonsmatt/servant-persistent
 [ ] add local storage
 [ ] add auth/sessions https://jappie.me/authentication-in-reflex-servant.html
   - servant auth https://docs.servant.dev/en/stable/cookbook/open-id-connect/OpenIdConnect.html , https://hackage.haskell.org/package/users-0.5.0.0, https://github.com/haskell-servant/servant/tree/master/servant-auth#readme
@@ -36,10 +38,16 @@
 [ ] add server rendered example page using obelisk (hidration) - see tryreflex page, https://jappie.me/reflex-server-side-html-rendering.html
 [ ] add server rendered example page using lucid
 [ ] load spa with progress bar from lucid generated page - https://github.com/obsidiansystems/obelisk/blob/135bfd7422b856c146b5cd5dacfe584f0621825e/lib/backend/src/Obelisk/Backend.hs
-[ ] add payment service integration (stripe?) https://github.com/dmjio/stripe
+[ ] add payment service integration (stripe, corvuspay)
 [ ] add basic analytics
 [ ] integrate ai text generate tools
 [ ] add i18n
+[ ] add gdpr compliance
+[ ] ssr https://github.com/eldr-io/hastl/tree/main/lib (server rendered page, servant, htmx if necessary)
+  - use only as optimization or on simpler projects
+[ ] Fetch js css dependencies with nix fetchurl and link them to static folder
+[ ] consider bulmacss (if reflex) or bootstrapcss (if sse) if picocss wont suit the need.
+
 
 ========= Android (interact with os and sensors)
 [ ] save file via js (or natively)
