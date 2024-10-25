@@ -8,6 +8,9 @@ library
   build-depends: base
                , obelisk-route
                , text
+               , mtl
+               , servant
+               , servant-server
   exposed-modules:
     Common.Api
     Common.Route

@@ -2,7 +2,8 @@
 
 ========= This week
 [x] add picocss
-[ ] add servant backend https://github.com/jonathanknowles/obelisk-reflex-servant-example https://jappie.me/fullstack-haskell-reflex-and-servant.html
+[x] add servant backend https://github.com/jonathanknowles/obelisk-reflex-servant-example https://jappie.me/fullstack-haskell-reflex-and-servant.html
+[ ] properly run backend with servant only, don't run snap
 [ ] generate servant endpoints (servant-client, https://github.com/imalsogreg/servant-reflex)
 
 ========= Backlog
