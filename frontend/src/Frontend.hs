@@ -1,9 +1,9 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecursiveDo #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE RecursiveDo #-}
 
 module Frontend where
 
@@ -14,7 +14,7 @@ import Control.Monad
 import Control.Monad.IO.Class (liftIO)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
-import Language.Javascript.JSaddle (function, js, js1, jsg, liftJSM, nextAnimationFrame, valToNumber)
+import Language.Javascript.JSaddle (function, js, js1, jsg, liftJSM, valToNumber)
 import Obelisk.Configs
 import Obelisk.Frontend
 import Obelisk.Generated.Static
@@ -35,18 +35,22 @@ logInW = divClass "container my-4" $ mdo
       emailPassW "Sign up"
       pure back
   pure ()
-  where
-    row = divClass "row py-2"
-    emailPassW :: T.Text ->  m (Event t (T.Text, T.Text))
-    emailPassW bText = do
-      email <- row $ value <$> input "email"
-      pass <- row $ value <$> input "password"
-      button <- row $ button bText
-      -- TODO: validate email and password
-      pure $ tagPromptlyDyn (zipDynWith (,) email pass) button
-      where
-        input t = inputElement $ def
-          & inputElementConfig_elementConfig . elementConfig_initialAttributes .~ ("type" =: t)
+ where
+  row = divClass "row py-2"
+  emailPassW :: T.Text -> m (Event t (T.Text, T.Text))
+  emailPassW bText = do
+    email <- row $ value <$> input "email"
+    pass <- row $ value <$> input "password"
+    button <- row $ button bText
+    -- TODO: validate email and password
+    pure $ tagPromptlyDyn (zipDynWith (,) email pass) button
+   where
+    input t =
+      inputElement $
+        def
+          & inputElementConfig_elementConfig
+          . elementConfig_initialAttributes
+          .~ ("type" =: t)
 
 -- This runs in a monad that can be run on the client or the server.
 -- To run code in a pure client or pure server context, use one of the
@@ -59,8 +63,8 @@ frontend =
         elAttr "script" ("type" =: "application/javascript" <> "src" =: $(static "lib.js")) blank
         elAttr "link" ("href" =: $(static "main.css") <> "type" =: "text/css" <> "rel" =: "stylesheet") blank
         -- TODO serve pico locally
-        elAttr "link" ("href" =: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" <> "rel" =: "stylesheet") blank,
-      _frontend_body = prerender_ blank $ do
+        elAttr "link" ("href" =: "https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" <> "rel" =: "stylesheet") blank
+    , _frontend_body = prerender_ blank $ do
         (animationFrameE, fireAnimationFrameE :: Double -> IO ()) <- newTriggerEvent
         display =<< count animationFrameE
         be <- button "woooo"
